@@ -1,50 +1,30 @@
-pipeline {
+pipeline{
     agent any
-    
-    tools{
-        maven "MAVEN_HOME"
+    environment {
+        PATH = "$PATH:C:/Program Files/apache-maven-3.6.3/bin"
     }
-
-    stages {
-	
-		stage("Checkout code"){
-			steps
-			{
-				checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: '62155eed-4a99-4fe1-b592-23d2501c45db', url: 'https://git.nagarro.com/GITG00641/Java/satyakumar-tattukolla.git']]])
-				echo 'Check Out'
-			}
-        }
-        stage('Clean') {
-            steps {
-                bat 'mvn -f Week_9_Assignment/pom.xml clean'
-                echo 'Cleaning..'
+    stages{
+       stage('GetCode'){
+            steps{
+                git 'https://github.com/satya8127/week_9_Assignment'
             }
-        }
-        stage('Compile') {
-            steps {
-                bat 'mvn -f Week_9_Assignment/pom.xml compile'
-                echo 'Compiling..'
+         }        
+       stage('Build'){
+            steps{
+                sh 'mvn clean package'
             }
+         }
+        stage('SonarQube analysis') {
+//    def scannerHome = tool 'SonarScanner 4.0';
+        steps{
+        withSonarQubeEnv('sonarqube-8.9') { 
+        // If you have configured more than one global server connection, you can specify its name
+//      sh "${scannerHome}/bin/sonar-scanner"
+        sh "mvn sonar:sonar"
+    }
         }
-        stage('Test') {
-            steps {
-                bat 'mvn -f Week_9_Assignment/pom.xml test'
-                echo 'Testing..'
-            }
         }
-        stage('Packaging') {
-            steps {
-                bat 'mvn -f Week_9_Assignment/pom.xml package'
-                echo 'Packageing..'
-            }
-        }
-        stage('Install') {
-            steps {
-                bat 'mvn -f Week_9_Assignment/pom.xml install'
-                echo 'Installing..'
-            }
-        }
-        
-      
+       
     }
 }
+
