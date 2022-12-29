@@ -1,5 +1,8 @@
 pipeline{
-    agent any
+    
+    tools{
+        maven "mvn"
+    }
     environment {
         PATH = "$PATH:C:/Program Files/apache-maven-3.6.3/bin"
     }
@@ -17,10 +20,10 @@ pipeline{
         stage('SonarQube analysis') {
 //    def scannerHome = tool 'SonarScanner 4.0';
         steps{
-        withSonarQubeEnv('sonarqube-8.9') { 
+        withSonarQubeEnv('sonar') { 
         // If you have configured more than one global server connection, you can specify its name
-//      sh "${scannerHome}/bin/sonar-scanner"
-        sh "mvn sonar:sonar"
+//      bat "${scannerHome}/bin/sonar-scanner"
+        bat "mvn sonar:sonar"
     }
         }
         }
