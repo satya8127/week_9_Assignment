@@ -7,11 +7,7 @@ pipeline{
         PATH = "$PATH:C:/Program Files/apache-maven-3.6.3/bin"
     }
     stages{
-       stage('GetCode'){
-            steps{
-                git 'https://github.com/satya8127/week_9_Assignment'
-            }
-         }        
+             
        stage('Build'){
             steps{
                 sh 'mvn clean package'
