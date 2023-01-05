@@ -1,29 +1,65 @@
-pipeline{
+pipeline {
+    agent any
     
     tools{
-        maven "mvn"
+        maven "MAVEN_HOME"
     }
-    environment {
-        PATH = "$PATH:C:/Program Files/apache-maven-3.6.3/bin"
-    }
-    stages{
-             
-       stage('Build'){
-            steps{
-                sh 'mvn clean package'
-            }
-         }
-        stage('SonarQube analysis') {
-//    def scannerHome = tool 'SonarScanner 4.0';
+   
+
+    stages {
+	
+		stage("Checkout code"){
+			steps
+			{
+				checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[credentialsId: '62155eed-4a99-4fe1-b592-23d2501c45db', url: 'https://git.nagarro.com/GITG00641/Java/satyakumar-tattukolla.git']]])
+				echo 'Check Out'
+			}
+        }
+        stage("sonar analysis"){
         steps{
-        withSonarQubeEnv('sonar') { 
-        // If you have configured more than one global server connection, you can specify its name
-//      bat "${scannerHome}/bin/sonar-scanner"
-        bat "mvn sonar:sonar"
-    }
+         withSonarQubeEnv(installationName: 'sonarproduction', credentialsId: 'sonardemo'){
+              bat ' mvn -f Week_9_Assignment/pom.xml clean verify sonar:sonar'
+              }
+              
+  }
+
+ 
+  
+  }
+        
+        stage('Clean') {
+            steps {
+                bat 'mvn -f Week_9_Assignment/pom.xml clean'
+                echo 'Cleaning..'
+            }
         }
+        stage('Compile') {
+            steps {
+                bat 'mvn -f Week_9_Assignment/pom.xml compile'
+                echo 'Compiling..'
+            }
         }
-       
+        stage('Test') {
+            steps {
+                bat 'mvn -f Week_9_Assignment/pom.xml test'
+                echo 'Testing..'
+            }
+        }
+        stage('Packaging') {
+            steps {
+                bat 'mvn -f Week_9_Assignment/pom.xml package'
+                echo 'Packageing..'
+            }
+        }
+        stage('Install') {
+            steps {
+                bat 'mvn -f Week_9_Assignment/pom.xml install'
+                echo 'Installing..'
+            }
+        }
+        
+  
+        
+      
     }
 }
-
