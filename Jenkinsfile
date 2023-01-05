@@ -4,6 +4,7 @@ pipeline {
     tools{
         maven "MAVEN_HOME"
     }
+   
 
     stages {
 	
@@ -14,6 +15,18 @@ pipeline {
 				echo 'Check Out'
 			}
         }
+        stage("sonar analysis"){
+        steps{
+         withSonarQubeEnv(installationName: 'sonarproduction', credentialsId: 'sonardemo'){
+              bat ' mvn -f Week_9_Assignment/pom.xml clean verify sonar:sonar'
+              }
+              
+  }
+
+ 
+  
+  }
+        
         stage('Clean') {
             steps {
                 bat 'mvn -f Week_9_Assignment/pom.xml clean'
@@ -44,6 +57,8 @@ pipeline {
                 echo 'Installing..'
             }
         }
+        
+  
         
       
     }
