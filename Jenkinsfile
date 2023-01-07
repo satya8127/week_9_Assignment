@@ -23,7 +23,7 @@ pipeline {
         
         stage('Clean') {
             steps {
-                sh 'mvn -f  clean install'
+                sh 'mvn -f pom.xml clean install'
                 echo 'Cleaning..'
             }
         }
