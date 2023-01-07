@@ -15,9 +15,7 @@ pipeline {
 				echo 'Check Out'
 			}
         
-       
-              
-  }
+   
 
  
   
