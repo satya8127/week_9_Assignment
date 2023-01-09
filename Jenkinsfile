@@ -14,6 +14,13 @@ pipeline {
 				checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/satya8127/week_9_Assignment.git']])
 				echo 'Check Out'
 			}
+			stage("sonar analysis"){
+        steps{
+         withSonarQubeEnv(installationName: 'sonar', credentialsId: 'sonardemo'){
+              bat ' mvn -f Week_9_Assignment/pom.xml clean verify sonar:sonar'
+              }
+	}
+			}
         
    
 
@@ -32,6 +39,7 @@ pipeline {
 			  sh 'docker build -t satya8127/week_9_assignment .'
 		    }
 	    }
+	    
         
         
   
