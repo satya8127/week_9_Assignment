@@ -27,6 +27,9 @@ pipeline {
                 echo 'Cleaning..'
             }
         }
+	    stage('docker image'){
+		    steps{
+			  sh 'docker build -t satya8127/  
         
         
   
