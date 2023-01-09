@@ -14,6 +14,7 @@ pipeline {
 				checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/satya8127/week_9_Assignment.git']])
 				echo 'Check Out'
 			}
+		}
 			stage("sonar analysis"){
         steps{
          withSonarQubeEnv(installationName: 'sonar', credentialsId: 'sonardemo'){
@@ -26,8 +27,7 @@ pipeline {
 
  
   
-  }
-        
+  
         stage('Clean') {
             steps {
                 sh 'mvn -f pom.xml clean install'
