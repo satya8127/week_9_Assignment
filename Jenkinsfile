@@ -15,13 +15,7 @@ pipeline {
 				echo 'Check Out'
 			}
 		}
-			stage("sonar analysis"){
-        steps{
-         withSonarQubeEnv(installationName: 'sonar', credentialsId: 'sonardemo'){
-              bat ' mvn -f Week_9_Assignment/pom.xml clean verify sonar:sonar'
-              }
-	}
-			}
+			
         
    
 
