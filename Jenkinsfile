@@ -31,7 +31,7 @@ pipeline {
 	    stage('docker image'){
 		    steps{
 			  sh 'docker build -t satya8127/week_9_assignment .'
-			    sh 'docker push -t satya8127/week_9_assignment'
+			    sh 'docker push satya8127/week_9_assignment'
 		    }
 	    }
 	    
