@@ -35,7 +35,7 @@ pipeline {
                        
 
 			  sh 'docker build -t satya8127/week_9_assignment .'
-				    sh 'docker login -u satya8127 -p $(dockerh)'
+				    sh 'docker login -u satya8127 -p ${dockerh}'
 			    sh 'docker push satya8127/week_9_assignment'
 			    }
 		    }
