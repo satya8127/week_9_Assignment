@@ -30,8 +30,9 @@ pipeline {
         }
 	    stage('docker image'){
 		    steps{
-			    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'p', usernameVariable: 'u')]) {
+			    withCredentials([string(credentialsId: 'hub', variable: 'dockerh')]) {
     // some block
+
 
 			  sh 'docker build -t satya8127/week_9_assignment .'
 			    sh 'docker push satya8127/week_9_assignment'
